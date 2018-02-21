@@ -54,6 +54,13 @@ class Client
     private $smsRecipientsFirstNames = [];
 
     /**
+     * LastNames that match with $smsRecipients
+     *
+     * @var array
+     */
+    private $smsRecipientsLastNames = [];
+
+    /**
      * @var \DateTime
      */
     private $sendingTime;
@@ -158,6 +165,24 @@ class Client
         $this->smsRecipientsFirstNames = $smsRecipientsFirstNames;
     }
 
+    /**
+     * @return array
+     */
+    public function getSmsRecipientsLastNames()
+    {
+        return $this->smsRecipientsLastNames;
+    }
+
+    /**
+     * @param array $smsRecipientsLastNames
+     */
+    public function setSmsRecipientsLastNames($smsRecipientsLastNames)
+    {
+        $this->smsRecipientsLastNames = $smsRecipientsLastNames;
+    }
+
+
+
 
     /**
      * Sends a simple SMS.
@@ -175,11 +200,18 @@ class Client
             'api_key' => $this->apiKey,
             'sms_text' => $smsText,
             'sms_recipients' => implode(',', $this->smsRecipients),
-            'sms_recipients_first_names' => implode(',', $this->smsRecipientsFirstNames),
             'sms_type' => $this->smsType,
             'sms_sender' => $this->smsSender,
             'request_mode' => $this->requestMode,
         ];
+
+        if(!empty($this->smsRecipientsFirstNames)) {
+            $data['sms_recipients_first_names'] = implode(',', $this->smsRecipientsFirstNames);
+        }
+
+        if(!empty($this->smsRecipientsLastNames)) {
+            $data['sms_recipients_last_names'] = implode(',', $this->smsRecipientsLastNames);
+        }
 
         if ($this->transactional) {
             $data['transactional'] = 1;
