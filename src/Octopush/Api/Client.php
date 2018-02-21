@@ -47,7 +47,14 @@ class Client
     private $smsRecipients = [];
 
     /**
-     * @var DateTime
+     * FirstNames that match with $smsRecipients
+     *
+     * @var array
+     */
+    private $smsRecipientsFirstNames = [];
+
+    /**
+     * @var \DateTime
      */
     private $sendingTime;
 
@@ -136,6 +143,23 @@ class Client
     }
 
     /**
+     * @return array
+     */
+    public function getSmsRecipientsFirstNames()
+    {
+        return $this->smsRecipientsFirstNames;
+    }
+
+    /**
+     * @param array $smsRecipientsFirstNames
+     */
+    public function setSmsRecipientsFirstNames($smsRecipientsFirstNames)
+    {
+        $this->smsRecipientsFirstNames = $smsRecipientsFirstNames;
+    }
+
+
+    /**
      * Sends a simple SMS.
      *
      * @param string $smsText Message text (maximum 459 characters).
@@ -151,6 +175,7 @@ class Client
             'api_key' => $this->apiKey,
             'sms_text' => $smsText,
             'sms_recipients' => implode(',', $this->smsRecipients),
+            'sms_recipients_first_names' => implode(',', $this->smsRecipientsFirstNames),
             'sms_type' => $this->smsType,
             'sms_sender' => $this->smsSender,
             'request_mode' => $this->requestMode,
