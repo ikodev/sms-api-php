@@ -61,6 +61,13 @@ class Client
     private $smsRecipientsLastNames = [];
 
     /**
+     * First custom Field that match with $smsRecipients
+     *
+     * @var array
+     */
+    private $smsFields1 = [];
+
+    /**
      * @var \DateTime
      */
     private $sendingTime;
@@ -181,8 +188,21 @@ class Client
         $this->smsRecipientsLastNames = $smsRecipientsLastNames;
     }
 
+    /**
+     * @return array
+     */
+    public function getSmsFields1()
+    {
+        return $this->smsFields1;
+    }
 
-
+    /**
+     * @param array $smsFields1
+     */
+    public function setSmsFields1($smsFields1)
+    {
+        $this->smsFields1 = $smsFields1;
+    }
 
     /**
      * Sends a simple SMS.
@@ -211,6 +231,10 @@ class Client
 
         if(!empty($this->smsRecipientsLastNames)) {
             $data['sms_recipients_last_names'] = implode(',', $this->smsRecipientsLastNames);
+        }
+
+        if(!empty($this->smsFields1)) {
+            $data['sms_fields_1'] = implode(',', $this->smsFields1);
         }
 
         if ($this->transactional) {
